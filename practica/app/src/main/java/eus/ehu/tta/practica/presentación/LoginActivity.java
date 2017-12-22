@@ -1,4 +1,4 @@
-package eus.ehu.tta.practica;
+package eus.ehu.tta.practica.presentación;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
