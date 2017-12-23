@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">practica</string>
+    <string name="usuario">Usuario</string>
+    <string name="psswd_label">Contraseña</string>
+    <string name="login">Introduce DNI</string>
+    <string name="password">Introduce password</string>
+    <string name="leccion">Lección 1: Introducción a Android</string>
+    <string name="button_send">Enviar</string>
+    <string name="button_ayuda">Ver Ayuda</string>
 </resources>
