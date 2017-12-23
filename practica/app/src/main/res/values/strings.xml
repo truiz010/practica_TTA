@@ -15,4 +15,7 @@
     </string>
     <string name="button_send">ENVIAR</string>
     <string name="usuario">USUARIO</string>
+    <string name="password_label">PASSWORD</string>
+    <string name="login">Introduce DNI</string>
+    <string name="password">Introduce password</string>
 </resources>
