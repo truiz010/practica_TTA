@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="es.ehu.tta.practica.ExerciseActivity">
+    tools:context="es.ehu.tta.practica.presentacion.presentacion.ExerciseActivity">
 
     <TextView
         android:id="@+id/exercise_wording"
