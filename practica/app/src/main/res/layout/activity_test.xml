@@ -35,7 +35,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_ayuda"
-        android:onClick="ayuda"/>
+        android:onClick="showText"/>
+
+    <Button
+        android:id="@+id/button_ayuda2"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_ayuda"
+        android:onClick="showHtml"/>
+
+    <Button
+        android:id="@+id/button_ayuda3"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_ayuda"
+        android:onClick="showVideo"/>
+
+    <Button
+        android:id="@+id/button_ayuda4"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_ayuda"
+        android:onClick="showAudio"/>
 
     <TextView
         android:id="@+id/text_ayuda"

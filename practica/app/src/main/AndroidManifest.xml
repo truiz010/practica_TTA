@@ -20,5 +20,12 @@
         <activity android:name=".presentacion.presentacion.TestActivity" />
         <activity android:name=".presentacion.presentacion.ExerciseActivity"></activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-feature android:name="android.hardware.camera" android:required="false"></uses-feature>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-feature android:name="android.hardware.microphone" android:required="false"></uses-feature>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
+    <uses-permission android:name="android.permission.RECORD_VIDEO"></uses-permission>
 
 </manifest>

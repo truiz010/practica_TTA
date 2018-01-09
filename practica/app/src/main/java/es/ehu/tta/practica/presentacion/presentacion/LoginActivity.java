@@ -31,13 +31,15 @@ public class LoginActivity extends AppCompatActivity {
             ).show();
 
         }
-        else
+        else{
             intent.putExtra(LoginActivity.EXTRA_LOGIN,login);
             Toast.makeText(
-                this,
-                "Acceso correcto",
-                Toast.LENGTH_SHORT
+                    this,
+                    "Acceso correcto",
+                    Toast.LENGTH_SHORT
             ).show();
+        }
+
         startActivity(intent);
     }
 }
