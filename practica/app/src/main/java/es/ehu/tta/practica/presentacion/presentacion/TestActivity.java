@@ -28,6 +28,7 @@ public class TestActivity extends AppCompatActivity  {
     String advise="<html><body>The manifest describes the components of the application: the activities, services, broadcast receivers, and content providers that...</body></html>";
     String adviseHtml="https://developer.android.com/guide/topics/manifest/manifest-intro.html";
     String adviseVideo="http://u017633.ehu.eus:28080/static/ServidorTta/AndroidManifest.mp4";
+    int mime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +72,20 @@ public class TestActivity extends AppCompatActivity  {
             if(advise!=null && !advise.isEmpty()){
                 if(selected==0){
                     findViewById(R.id.button_ayuda).setVisibility(View.VISIBLE);
+                    mime=0;
+
                 }
                 if(selected==1){
-                    findViewById(R.id.button_ayuda2).setVisibility(View.VISIBLE);
+                    findViewById(R.id.button_ayuda).setVisibility(View.VISIBLE);
+                    mime=1;
                 }
                 if(selected==3){
-                    findViewById(R.id.button_ayuda3).setVisibility(View.VISIBLE);
+                    findViewById(R.id.button_ayuda).setVisibility(View.VISIBLE);
+                    mime=3;
                 }
                 if(selected==4){
-                    findViewById(R.id.button_ayuda4).setVisibility(View.VISIBLE);
+                    findViewById(R.id.button_ayuda).setVisibility(View.VISIBLE);
+                    mime=4;
                 }
             }
         }
@@ -87,7 +93,30 @@ public class TestActivity extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(),"¡Correcto!",Toast.LENGTH_SHORT).show();;
         }
 
-        public void showText(View view){
+        public void ayuda(View view){
+
+            if(mime==0){
+                showText(advise);
+            }
+            else{
+                if(mime==1){
+                    showHtml(adviseHtml);
+                }
+                else{
+                    if(mime==3){
+                        showVideo(adviseVideo);
+                    }
+                    else{
+                        if(mime==4){
+                            showAudio(adviseVideo);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void showText(String advise){
 
             WebView web=new WebView(this);
             web.loadData(advise,"text/html",null);
@@ -97,11 +126,11 @@ public class TestActivity extends AppCompatActivity  {
             layout.addView(web);
     }
 
-    public void showHtml(View view){
+    public void showHtml(String advise){
 
 
-        if(adviseHtml.substring(0,10).contains("://")){
-            Uri uri=Uri.parse(adviseHtml);
+        if(advise.substring(0,10).contains("://")){
+            Uri uri=Uri.parse(advise);
             Intent intent=new Intent(Intent.ACTION_VIEW,uri);
             startActivity(intent);
         }
@@ -115,10 +144,10 @@ public class TestActivity extends AppCompatActivity  {
         //}
     }
 
-    public void showVideo(View view){
+    public void showVideo(String advise){
 
         VideoView video=new VideoView(this);
-        video.setVideoURI(Uri.parse(adviseVideo));
+        video.setVideoURI(Uri.parse(advise));
         ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         video.setLayoutParams(params);
 
@@ -144,23 +173,23 @@ public class TestActivity extends AppCompatActivity  {
         video.start();
     }
 
-    public void showAudio(View view){
+    public void showAudio(String advise){
 
-        View view1=new View(this);
-        AudioPlayer audio=new AudioPlayer(view1);
+        View view=new View(this);
+        AudioPlayer audio=new AudioPlayer(view);
         ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(params);
         //audio.setAudioUri(Uri.parse(adviseVideo));
 
         //MediaPlayer media=new MediaPlayer();
         try{
-            audio.setAudioUri(Uri.parse(adviseVideo));
+            audio.setAudioUri(Uri.parse(advise));
         }
         catch (IOException e){
             e.printStackTrace();
         }
         ViewGroup layout=(ViewGroup)findViewById(R.id.pantalla_test);
-        layout.addView(view1);
+        layout.addView(view);
         audio.start();
     }
 }

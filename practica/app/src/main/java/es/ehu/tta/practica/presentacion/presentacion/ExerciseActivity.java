@@ -6,10 +6,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Picture;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +33,9 @@ public class ExerciseActivity extends AppCompatActivity {
     final int PICTURE_REQUEST_CODE=4;
     final int AUDIO_REQUEST_CODE=3;
     final int VIDEO_REQUEST_CODE=2;
-    public Uri pictureUri;
+    private Uri pictureUri;
+    private String TAG;
+    private String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class ExerciseActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode!= Activity.RESULT_OK){
@@ -88,7 +93,11 @@ public class ExerciseActivity extends AppCompatActivity {
         }
         switch (requestCode){
             case READ_REQUEST_CODE:
+                Uri uri=data.getData();
+                fileName=dumpMetaData(uri);
+                break;
             case VIDEO_REQUEST_CODE:
+                break;
             case AUDIO_REQUEST_CODE:
                 //sendFile(data.getData());
                 break;
@@ -120,13 +129,14 @@ public class ExerciseActivity extends AppCompatActivity {
         startActivityForResult(intent,READ_REQUEST_CODE);
     }
 
-    /*public void dumpImageMetaData(URI uri){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public String dumpMetaData(Uri uri){
 
-        Cursor cursor=getActivity().getContentResolver().query(uri,null,null,null,null,null);
-
+        Cursor cursor=getContentResolver().query(uri,null,null,null,null,null);
+        String displayName="";
         try{
-            if(cursor|=null && cursor.moveToFirst()){
-                String displayName=cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            if(cursor!=null && cursor.moveToFirst()){
+                displayName=cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 Log.i(TAG,"Display Name: "+displayName);
 
                 int sizeIndex=cursor.getColumnIndex(OpenableColumns.SIZE);
@@ -143,5 +153,6 @@ public class ExerciseActivity extends AppCompatActivity {
         finally {
             cursor.close();
         }
-    }*/
+        return displayName;
+    }
 }

@@ -25,6 +25,10 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
             player.setOnPreparedListener(this);
             controller = new MediaController(view.getContext()){
                 @Override
+                public void hide(){
+
+                }
+                @Override
                 public boolean dispatchKeyEvent(KeyEvent event){
                     if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
                         release();
@@ -59,12 +63,12 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
     }
     @Override
     public void start() {
-
+        player.start();
     }
 
     @Override
     public void pause() {
-
+        player.pause();
     }
 
     @Override
@@ -80,12 +84,13 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
 
     @Override
     public void seekTo(int pos) {
-
+        player.seekTo(pos);
     }
 
     @Override
     public boolean isPlaying() {
-        return false;
+
+        return player.isPlaying();
     }
 
     @Override
@@ -95,17 +100,17 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
 
     @Override
     public boolean canPause() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean canSeekBackward() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean canSeekForward() {
-        return false;
+        return true;
     }
 
     @Override
