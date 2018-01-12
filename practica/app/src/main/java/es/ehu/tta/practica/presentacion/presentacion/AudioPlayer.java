@@ -117,8 +117,6 @@ public class AudioPlayer implements MediaController.MediaPlayerControl, MediaPla
     public int getAudioSessionId() {
         return 0;
     }
-
-
 }
 
 
