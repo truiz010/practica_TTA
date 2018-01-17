@@ -29,15 +29,21 @@ public class TestActivity extends AppCompatActivity  {
     String adviseHtml="https://developer.android.com/guide/topics/manifest/manifest-intro.html";
     String adviseVideo="http://u017633.ehu.eus:28080/static/ServidorTta/AndroidManifest.mp4";
     int mime;
+    String login;
+    String passwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        TextView testWording=(TextView)findViewById(R.id.test_wording);
-        testWording.setText(question);
+       // TextView testWording=(TextView)findViewById(R.id.test_wording);
+        //testWording.setText(question);
+        Intent intent=getIntent();
         RadioGroup group=(RadioGroup)findViewById(R.id.test_choices);
+        login=intent.getStringExtra(MenuActivity.EXTRA_LOGIN);
+        passwd=intent.getStringExtra(MenuActivity.EXTRA_PASSWORD);
+
         for(int i=0;i<answers.length;i++){
             RadioButton radio=new RadioButton(this);
             radio.setText(answers[i]);

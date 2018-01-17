@@ -34,7 +34,7 @@ public class ExerciseActivity extends AppCompatActivity {
     final int AUDIO_REQUEST_CODE=3;
     final int VIDEO_REQUEST_CODE=2;
     private Uri pictureUri;
-    private String TAG;
+    private String TAG="";
     private String fileName;
 
     @Override
@@ -85,7 +85,6 @@ public class ExerciseActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode!= Activity.RESULT_OK){
@@ -129,7 +128,6 @@ public class ExerciseActivity extends AppCompatActivity {
         startActivityForResult(intent,READ_REQUEST_CODE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public String dumpMetaData(Uri uri){
 
         Cursor cursor=getContentResolver().query(uri,null,null,null,null,null);
@@ -149,10 +147,12 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
                 Log.i(TAG,"Size: "+size);
             }
+            return displayName;
         }
+
         finally {
             cursor.close();
         }
-        return displayName;
+
     }
 }

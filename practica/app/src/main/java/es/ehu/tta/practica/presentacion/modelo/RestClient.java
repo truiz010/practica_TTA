@@ -1,14 +1,20 @@
 package es.ehu.tta.practica.presentacion.modelo;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,15 +25,18 @@ import java.util.Map;
 public class RestClient {
 
     private final static String AUTH="Authorization";
-    private final String baseUrl="";
+    private final String baseUrl;
     private final Map<String,String>properties=new HashMap<>();
 
     public RestClient(String baseUrl){
-       // this.baseUrl=baseUrl;
+        this.baseUrl = baseUrl;
     }
+
 
     public void setHttpBasicAuth(String user, String passwd){
 
+        String basicAuth= android.util.Base64.encodeToString((String.format("%s:%s", user,passwd).getBytes()), android.util.Base64.DEFAULT);
+        properties.put(AUTH, String.format("Basic %s", basicAuth));
     }
 
     public String getAuthorization(){
@@ -53,12 +62,25 @@ public class RestClient {
         return conn;
     }
 
-    /*public  String getString(String path)throws IOException{
-        String a="";
-        return a;
-    }*/
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public  String getString(String path)throws IOException{
 
-   /public JSONObject getJSON(String path)throws IOException,JSONException{
+        HttpURLConnection conn=null;
+        try{
+            conn=getConnection(path);
+            try(BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()))){
+                return br.readLine();
+            }
+        }
+        finally {
+            if(conn!=null){
+                conn.disconnect();
+            }
+        }
+    }
+
+   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+   public JSONObject getJSON(String path)throws IOException,JSONException{
         return new JSONObject(getString(path));
     }
 
@@ -81,7 +103,16 @@ public class RestClient {
            byte[] data=new byte[1024*1024];
            int len;
            while ((len=is.read(data))>0){
-               
+               out.write(data,0,len);
+           }
+           out.writeBytes(newLine);
+           out.writeBytes(prefix+boundary+prefix+newLine);
+           out.close();
+           return conn.getResponseCode();
+       }
+       finally {
+           if(conn!=null){
+               conn.disconnect();
            }
        }
     }
