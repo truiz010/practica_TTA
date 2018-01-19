@@ -78,11 +78,11 @@ public class LoginActivity extends AppCompatActivity {
             }.execute();
 
             //intent.putExtra(LoginActivity.EXTRA_LOGIN,user);
-            Toast.makeText(
+            /*Toast.makeText(
                     this,
                     "Acceso correcto",
                     Toast.LENGTH_SHORT
-            ).show();
+            ).show();*/
         }
 
        // startActivity(intent);

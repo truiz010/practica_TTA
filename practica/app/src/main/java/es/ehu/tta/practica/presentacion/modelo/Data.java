@@ -56,50 +56,52 @@ public class Data {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public Test getTest()throws IOException, JSONException{
+    public Test getTest(int id)throws IOException, JSONException{
         try {
             Test test=new Test();
-            JSONObject json=rest.getJSON(String.format("getTest?id=1"));
+            JSONObject json=rest.getJSON(String.format("getTest?id=%d",id));
             test.setWording(json.getString("wording"));
-            JSONArray array=json.getJSONArray("choise");
+            JSONArray array=json.getJSONArray("choices");
 
             for(int i=0;i<array.length();i++){
                 JSONObject item=array.getJSONObject(i);
-                Choise choise=new Choise();
-                choise.setId(item.getInt("id"));
-                choise.setAnswer(item.getString("answer"));
-                choise.setCorrect(item.getBoolean("correct"));
-                choise.setAdvise(item.optString("advise",null));
-                choise.setMime(item.optString("mime",null));
-                //test.getChoise().add(choise);
+                Test.Choices choice=new Test.Choices();
+                choice.setId(item.getInt("id"));
+                choice.setAnswer(item.getString("answer"));
+                choice.setCorrect(item.getBoolean("correct"));
+                choice.setAdvise(item.optString("advise",null));
+
+                if(item.getString("resourceType").matches("null")){
+                    choice.setMime("null");
+                }
+                else{
+                    JSONObject resourceType=item.getJSONObject("resourceType");
+                    choice.setMime(resourceType.getString("mime"));
+                }
+
+                test.getChoices().add(choice);
             }
             return test;
         }
         catch (JSONException e){
-            return null;
+             return null;
         }
     }
 
-   /* public void putTest(Test test)throws IOException, JSONException{
-        try {
-            JSONObject json=new JSONObject();
-            json.put("wording",test.getWording());
-            JSONArray array=new JSONArray();
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public Exercise getExercise(int id)throws IOException, JSONException{
+        JSONObject json=rest.getJSON(String.format("getExercise?id=%d",id));
+        Exercise exercise=new Exercise();
+        exercise.setWording(json.getString("wording"));
+        return exercise;
+    }
 
-            for(Choise choise:test.getChoise()){
-                JSONObject item=new JSONObject();
-                item.put("id",choise.getId());
-                item.put("answer",choise.getAnswer());
-                item.put("correct",choise.getCorrect());
-                item.put("advise",choise.getAdvise());
-                item.put("mime",choise.getMime());
-                array.put(item);
-            }
-            json.put("choice",array);
-           // bundle.putString(EXTRA_TEST,json.toString());
-        }
-        catch (JSONException e){
-            e.printStackTrace();
-        }
-    }*/
+    public void uploadChoice(int userId, int choiceId)throws IOException, JSONException{
+        JSONObject json=new JSONObject();
+        json.put("userId",userId);
+        json.put("choiceId",choiceId);
+        rest.postJSON(json,"postChoice");
+    }
+
+
 }

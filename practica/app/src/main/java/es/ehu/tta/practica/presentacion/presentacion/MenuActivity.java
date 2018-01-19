@@ -25,7 +25,7 @@ public class MenuActivity extends AppCompatActivity {
         passwd=intent.getStringExtra(LoginActivity.EXTRA_PASSWORD);
         TextView textLogin=(TextView)findViewById(R.id.menu_login);
         TextView textLeccion=(TextView)findViewById(R.id.menu_leccion);
-        textLogin.setText("Bienvenido "+intent.getStringExtra(LoginActivity.EXTRA_LOGIN));
+        textLogin.setText("Bienvenido "+intent.getStringExtra(LoginActivity.EXTRA_USER));
         textLeccion.setText("Leccion "+intent.getStringExtra(LoginActivity.EXTRA_LESSON_NUMBER)+": "+intent.getStringExtra(LoginActivity.EXTRA_LESSON_TITLE));
     }
 

@@ -24,26 +24,53 @@ import java.io.IOException;
 import java.net.URI;
 
 import es.ehu.tta.practica.R;
+import es.ehu.tta.practica.presentacion.modelo.Data;
+import es.ehu.tta.practica.presentacion.modelo.Exercise;
+import es.ehu.tta.practica.presentacion.modelo.ProgressTask;
 
 public class ExerciseActivity extends AppCompatActivity {
 
-    String exercise_question="Explica cómo aplicarías el patrón de diseño MVP en el desarrollo de una app para Android";
+   // String exercise_question="Explica cómo aplicarías el patrón de diseño MVP en el desarrollo de una app para Android";
 
     final int READ_REQUEST_CODE=1;
     final int PICTURE_REQUEST_CODE=4;
     final int AUDIO_REQUEST_CODE=3;
     final int VIDEO_REQUEST_CODE=2;
     private Uri pictureUri;
-    private String TAG="";
+    private String TAG="tag";
     private String fileName;
+    String login;
+    String passwd;
+    int id=1;
+    public final static Data server=new Data();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
-        TextView question=(TextView)findViewById(R.id.exercise_wording);
-        question.setText(exercise_question);
+        Intent intent=getIntent();
+        login=intent.getStringExtra(MenuActivity.EXTRA_LOGIN);
+        passwd=intent.getStringExtra(MenuActivity.EXTRA_PASSWORD);
+
+        //TextView question=(TextView)findViewById(R.id.exercise_wording);
+        //question.setText(exercise_question);
+
+        new ProgressTask<Exercise>(this){
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            protected Exercise work()throws Exception{
+                server.getRest().setHttpBasicAuth(login,passwd);
+                return server.getExercise(id);
+            }
+
+            @Override
+            protected void onFinish(Exercise result){
+                TextView question=(TextView)findViewById(R.id.exercise_wording);
+                question.setText(result.getWording());
+            }
+
+        }.execute();
     }
 
     public void takePhoto(View view){
@@ -147,12 +174,11 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
                 Log.i(TAG,"Size: "+size);
             }
-            return displayName;
         }
 
         finally {
             cursor.close();
         }
-
+        return displayName;
     }
 }
